@@ -6,7 +6,7 @@
 #include <regex>
 #include "application.hxx"
 #include "connection.hxx"
-#include "connection_iterator.hxx"
+#include "connection_parser.hxx"
 
 const int ADDR_LENGTH = 30;
 
@@ -28,8 +28,8 @@ namespace Netstat {
 				<< ::std::setw(ADDR_LENGTH) << ::std::left << "Foreign Address" \
 				<< "PID/Program" \
 				<< ::std::endl; \
-			ConnectionV4Iterator $##v4("/proc/net/" #$); \
-			ConnectionV6Iterator $##v6("/proc/net/" #$ "6"); \
+			ConnectionV4Parser $##v4("/proc/net/" #$); \
+			ConnectionV6Parser $##v6("/proc/net/" #$ "6"); \
 			list_connection($##v4, #$); \
 			list_connection($##v6, #$ "6"); \
 			::std::cout << ::std::endl; \
@@ -88,10 +88,8 @@ namespace Netstat {
 	}
 
  	template <typename T>
-	void Application::list_connection(ConnectionIterator<T> &iter, const char *type) {
-		for (; !iter.eof(); ++iter) {
-			auto connection = *iter;
-
+	void Application::list_connection(ConnectionParser<T> &parser, const char *type) {
+		for (auto &connection : parser) {
 			if (options.search_command) {
 				if (connection.pid == 0) {
 					continue;

@@ -1,12 +1,12 @@
 #include <cstdio>
-#include "connection_iterator.hxx"
+#include "connection_parser.hxx"
 #include "connection_helper.hxx"
 
 namespace Netstat {
 	using Helper = ConnectionHelper;
 
 	template<>
-	void ConnectionIterator<ConnectionV4>::parse() {
+	void ConnectionParser<ConnectionV4>::parse() {
 		if (connection != nullptr) {
 			delete connection;
 		}
@@ -26,7 +26,7 @@ namespace Netstat {
 	}
 
 	template<>
-	void ConnectionIterator<ConnectionV6>::parse() {
+	void ConnectionParser<ConnectionV6>::parse() {
 		if (connection != nullptr) {
 			delete connection;
 		}

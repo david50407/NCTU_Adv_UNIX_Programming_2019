@@ -7,7 +7,7 @@ LDFLAGS:=-lc++abi -lc++fs
 OBJS=main.o \
 		 core_ext/ostream.o \
 		 netstat/application.o \
-		 netstat/connection_iterator.o
+		 netstat/connection_parser.o
 
 %.o: %.cxx
 	$(CXX) $(CXXFLAGS) -c $^ -o $@

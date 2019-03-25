@@ -2,7 +2,7 @@
 #define __NETSTAT_APPLICATION_HXX__
 
 #include "options.hxx"
-#include "connection_iterator.hxx"
+#include "connection_parser.hxx"
 
 namespace Netstat {
 	class Application {
@@ -16,7 +16,7 @@ namespace Netstat {
 		void print_help();
 		void parse_args(int, char **);
 		template <typename T>
-		void list_connection(ConnectionIterator<T> &, const char *);
+		void list_connection(ConnectionParser<T> &, const char *);
 	};
 }
 
