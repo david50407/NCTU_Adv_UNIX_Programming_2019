@@ -34,10 +34,18 @@ namespace Netstat {
 							continue;
 						}
 
+						int fd_inode;
 						auto fd_real = fs::read_symlink(fd.path());
 						if (fd_real.string().compare(0, 8, "socket:[") == 0) { // socket:[inode]
-							int fd_inode;
 							::sscanf(fd_real.c_str() + 8, "%d", &fd_inode);
+
+							if (fd_inode == inode) {
+								return ::std::stoi(proc_name);
+							}
+						}
+
+						if (fd_real.string().compare(0, 7, "[0000]:") == 0) { // [0000]:inode
+							::sscanf(fd_real.c_str() + 7, "%d", &fd_inode);
 
 							if (fd_inode == inode) {
 								return ::std::stoi(proc_name);
